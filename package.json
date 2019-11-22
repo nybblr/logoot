@@ -1,0 +1,22 @@
+{
+  "name": "logoot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/tree.js",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nybblr/logoot"
+  },
+  "scripts": {
+    "test": "mocha --require=esm test/*.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "esm": "^3.2.25",
+    "mocha": "^6.2.2"
+  }
+}
