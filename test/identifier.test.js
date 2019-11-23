@@ -2,7 +2,8 @@ import {
   idToInt,
   bitLengthForLevel,
   sumBitLengthForLevel,
-  // sidAtLevel,
+  levelFromInt,
+  intToId,
 } from '../src/identifier.js';
 import { expect } from 'chai';
 
@@ -71,8 +72,37 @@ describe('idToInt', () => {
   });
 });
 
-describe.skip('sidFromIntAtLevel', () => {
-  it('is <7,...> for int 7 at level 0', () => {
-    expect(sidAtLevel(7, 0, 3)).to.eql(7);
+describe('intToId', () => {
+  it('decodes int 0 as id<0> for base 3', () => {
+    expect(intToId(0, 3)).to.eql([0]);
+  });
+
+  it('decodes int 7 as id<7> for base 3', () => {
+    expect(intToId(7, 3)).to.eql([7]);
+  });
+
+  it('decodes int 19 as id<1,3> for base 3', () => {
+    expect(intToId(19, 3)).to.eql([1,3]);
+  });
+
+  it('decodes int 3562 as id<6,15,10> for base 3', () => {
+    expect(intToId(3562, 3)).to.eql([6,15,10]);
+  });
+});
+
+describe('levelFromInt', () => {
+  it('is 0 for ints 0-7 at base 3', () => {
+    expect(levelFromInt(0, 3)).to.eql(0);
+    expect(levelFromInt(7, 3)).to.eql(0);
+  });
+
+  it('is 1 for int 8-127 at base 3', () => {
+    expect(levelFromInt(8, 3)).to.eql(1);
+    expect(levelFromInt(127, 3)).to.eql(1);
+  });
+
+  it('is 2 for int 128-4095 at base 3', () => {
+    expect(levelFromInt(128, 3)).to.eql(2);
+    expect(levelFromInt(4095, 3)).to.eql(2);
   });
 });
