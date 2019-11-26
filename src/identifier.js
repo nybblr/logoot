@@ -8,6 +8,12 @@ let assertNotRoot = (id) =>
     ? raise(new RangeError('Root node ID has no integer equivalent.'))
     : id;
 
+export let idToString = (id) =>
+  id.join('.');
+
+export let idFromString = (str) =>
+  str.split('.');
+
 export let bitLength = (int) =>
   Math.ceil(Math.log2(int + 1));
 
@@ -19,6 +25,9 @@ export let levelFromInt = (int, base) => {
   }
   return level;
 };
+
+export let endPosition = (base) =>
+  Math.pow(2, base) - 1;
 
 let mask = (width) =>
   (1 << width) - 1;
