@@ -33,7 +33,7 @@ let addChild = (parent, node) => {
 
 const emptyNode = { length: 0 };
 let mergeChild = (parent, node) => {
-  let current = parent.children[tail(node.id)] || emptyNode;
+  let current = getChild(parent, tail(node.id)) || emptyNode;
   assertEmptyNode(current);
   let delta = hasElement(node) ? 1 : 0;
   let child = { ...node, ...current,
@@ -57,7 +57,7 @@ let addEmptyChild = (parent, position) =>
 export let get = (node, [position, ...subId]) =>
   position === undefined
     ? node
-    : get(node.children[position], subId);
+    : get(getChild(node, position), subId);
 
 export let add = (parent, level, id, element) => {
   let position = id[level];
@@ -74,6 +74,26 @@ export let add = (parent, level, id, element) => {
   parent.length += delta;
 
   return { node, delta };
+};
+
+export let getByIndex = (parent, index) => {
+  // TODO Naive: step over list from left to right
+  // Better to do a binary search, but how?
+  if (index === 0 && hasElement(parent)) { return parent; }
+  let leftSum = hasElement(parent) ? 1 : 0;
+  let i = parent.children.findIndex(child => {
+    if (child === undefined) { return false; }
+
+    let tooFar = leftSum + child.length > index;
+    !tooFar && (leftSum += child.length);
+    return tooFar;
+  });
+  return i < 0
+    ? undefined
+    : getByIndex(
+        getChild(parent, i),
+        index - leftSum
+      )
 };
 
 export let hasElement = (node) =>

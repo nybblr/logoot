@@ -4,6 +4,7 @@ import Tree, {
   get,
   add,
   length,
+  getByIndex,
 } from '../src/tree.js';
 import {
   hasElement
@@ -151,6 +152,43 @@ describe('Tree', () => {
       expect(get(tree, [1,2,3]).length).to.eql(1);
       expect(get(tree, [2,3,4]).length).to.eql(1);
       expect(get(tree, [1,2]).length).to.eql(2);
+    });
+  });
+
+  describe('getByIndex', () => {
+    it('is undefined node when empty', () => {
+      let node = getByIndex(tree, 0);
+      expect(node).to.eql(undefined);
+    });
+
+    it('is the node for 0 in a non-empty tree', () => {
+      add(tree, [1], 'A');
+
+      let node = getByIndex(tree, 0);
+      expect(node.id).to.eql([1]);
+    });
+
+    it('is the deep node for 0 in a non-empty tree', () => {
+      add(tree, [1,2], 'A');
+
+      let node = getByIndex(tree, 0);
+      expect(node.id).to.eql([1,2]);
+    });
+
+    it('is the near node, then deep node', () => {
+      add(tree, [1], 'A');
+      add(tree, [1,2], 'B');
+
+      expect(getByIndex(tree, 0).id).to.eql([1]);
+      expect(getByIndex(tree, 1).id).to.eql([1,2]);
+    });
+
+    it('is the near node, then deep node after filling gap', () => {
+      add(tree, [1,2], 'A');
+      add(tree, [1], 'B');
+
+      expect(getByIndex(tree, 0).id).to.eql([1]);
+      expect(getByIndex(tree, 1).id).to.eql([1,2]);
     });
   });
 });

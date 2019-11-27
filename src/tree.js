@@ -1,6 +1,7 @@
 import Node, {
   get as getNode,
   add as addNode,
+  getByIndex as getNodeByIndex,
 } from './node.js';
 import { endPosition } from './identifier.js';
 
@@ -27,5 +28,8 @@ export let get = (tree, id) =>
 
 export let length = (tree) =>
   tree.root.length;
+
+export let getByIndex = (tree, index) =>
+  getNodeByIndex(tree.root, index);
 
 export default Tree;
