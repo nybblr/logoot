@@ -14,7 +14,7 @@ let Node = ({ id, element, children = [] }) => {
     id,
     element,
     length: element === undefined ? 0 : 1,
-    children: {},
+    children: [],
   };
 
   node.length += sum(
@@ -31,10 +31,15 @@ let addChild = (parent, node) => {
   return { node, delta };
 };
 
+const emptyNode = { length: 0 };
 let mergeChild = (parent, node) => {
-  let current = parent.children[tail(node.id)];
-  current && assertEmptyNode(current);
-  let child = { ...node, ...current, element: node.element };
+  let current = parent.children[tail(node.id)] || emptyNode;
+  assertEmptyNode(current);
+  let delta = hasElement(node) ? 1 : 0;
+  let child = { ...node, ...current,
+    element: node.element,
+    length: current.length + delta,
+  };
   return addChild(parent, child);
 };
 

@@ -103,23 +103,43 @@ describe('Tree', () => {
     it('is 1 after adding a node', () => {
       add(tree, [1], 'A');
       expect(length(tree)).to.eql(1);
+
+      expect(get(tree, [1]).length).to.eql(1);
     });
 
     it('is 1 after adding a node despite the gap', () => {
       add(tree, [1,5], 'B');
       expect(length(tree)).to.eql(1);
+
+      expect(get(tree, [1]).length).to.eql(1);
+      expect(get(tree, [1,5]).length).to.eql(1);
+    });
+
+    it('is 2 when adding depth first', () => {
+      add(tree, [1], 'A');
+      add(tree, [1,5], 'B');
+      expect(length(tree)).to.eql(2);
+
+      expect(get(tree, [1]).length).to.eql(2);
+      expect(get(tree, [1,5]).length).to.eql(1);
     });
 
     it('is 2 after adding filling the gap', () => {
       add(tree, [1,5], 'B');
       add(tree, [1], 'A');
       expect(length(tree)).to.eql(2);
+
+      expect(get(tree, [1]).length).to.eql(2);
+      expect(get(tree, [1,5]).length).to.eql(1);
     });
 
     it('is 2 with 2 shallow nodes', () => {
       add(tree, [1], 'A');
       add(tree, [2], 'B');
       expect(length(tree)).to.eql(2);
+
+      expect(get(tree, [1]).length).to.eql(1);
+      expect(get(tree, [2]).length).to.eql(1);
     });
 
     it('is 3 with deep nodes and gap', () => {
@@ -127,6 +147,10 @@ describe('Tree', () => {
       add(tree, [2,3,4], 'B');
       add(tree, [1,2], 'C');
       expect(length(tree)).to.eql(3);
+
+      expect(get(tree, [1,2,3]).length).to.eql(1);
+      expect(get(tree, [2,3,4]).length).to.eql(1);
+      expect(get(tree, [1,2]).length).to.eql(2);
     });
   });
 });
